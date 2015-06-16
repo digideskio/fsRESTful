@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<document type="freeswitch/xml">
+  <section name="directory">
+    <domain name="domain.local">
+      <user id="gateways"> 
+        <gateways>
+          {{#each gateways}}
+          <gateway name="gw-{{this.id}}"> 
+            <params>
+              <param name="proxy"             value="{{this.address}}"/>
+              <param name="register"          value="{{this.register}}"/>
+              <param name="username"          value="{{this.login}}"/>
+              <param name="password"          value="{{this.password}}"/>	
+              <param name="caller-id-in-from" value="true"/>
+              <param name="context"           value="gw_{{this.id}}_incoming"/>
+              <param name="retry-seconds"     value="10"/>
+              <param name="expire-seconds"    value="300"/>
+            </params>
+          </gateway>
+          {{/each}}
+        </gateways>
+      </user>
+    </domain>
+  </section>
+</document>

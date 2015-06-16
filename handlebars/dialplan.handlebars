@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<document type="freeswitch/xml">
+  <section name="dialplan">
+    <context name="{{context}}">
+      <extension name="{{number.number}}">
+        <condition field="destination_number" expression="^{{number.number}}$">
+          {{#each number.headers}}
+          <action application="set" data="sip_rh_{{this.name}}={{this.value}}"/>
+          {{/each}}
+          <action application="bridge" data="sofia/external/{{number.destination}}"/>
+        </condition>
+      </extension>
+    </context>
+  </section>
+</document>
