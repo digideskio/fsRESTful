@@ -38,6 +38,7 @@ app.use(cookieParser());
 app.use(cookieSession({keys:['po8erhjD$']}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use('/api/gateways', api_gateways);
 app.use('/api/nodes', api_nodes);
 app.use('/api/numbers', api_numbers);

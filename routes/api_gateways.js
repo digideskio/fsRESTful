@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fswitch = require('../freeswitch');
 var form = require('express-form'), 
     field = form.field;
 
@@ -47,7 +48,15 @@ router.route('/:id')
   .get(function(req, res){
     req.models.Gateways.get(req.params.id,function(err, gw){
       if(err && err.literalCode!='NOT_FOUND') return res.json({ error:'db', detail: err });
-      res.json(gw||{});
+      if(!gw) return res.json({});
+      fswitch.api(gw.node,'sofia status gateway gw-'+gw.id,function(data){
+        var d = data.split('\n');
+        for(var item in d){
+          var a = d[item].split(/\s+/);
+          if(a[0]=='State')gw.state = a[1];
+        }
+        res.json(gw);
+      });
     });
   })
   .put(

@@ -25,10 +25,18 @@ var models = function (db, models, next){
     hooks: {
       afterSave: function(next){
         var $self = this;
-        if(typeof $self.node === 'undefined') $self.node = { id: $self.node_id };
-        fs.api($self.node,'sofia profile ' + $self.profile + ' killgw gw-'+$self.id,function(){
-          fs.api($self.node,'sofia profile ' + $self.profile + ' rescan reloaxml');	
-        });
+        if(typeof $self.node === 'undefined') 
+          models.Nodes.get($self.node_id,function(err,data){ 
+            $self.node = data;
+            fs.api($self.node,'sofia profile ' + $self.profile + ' killgw gw-'+$self.id,function(){
+              fs.api($self.node,'sofia profile ' + $self.profile + ' rescan reloadxml');	
+            });
+          });
+        else
+          fs.api($self.node,'sofia profile ' + $self.profile + ' killgw gw-'+$self.id,function(){
+            fs.api($self.node,'sofia profile ' + $self.profile + ' rescan reloadxml');	
+          });
+
         return next;
       },
       afterRemove: function(next){
