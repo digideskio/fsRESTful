@@ -272,6 +272,7 @@ Node parameter should be an integer value which is the id column value in the da
 ## Configure freeswitch to use ODBC DSN to store CDRs
 
 ### odbc_cdr.conf.xml
+
 ```
   <configuration name="odbc_cdr.conf" description="ODBC CDR Configuration">
     <settings>
@@ -332,3 +333,7 @@ Node parameter should be an integer value which is the id column value in the da
   </configuration>
 ```
 
+## Known issues
+
+- Fedora 21 contains a broken mysql odbc connector
+  FIX: yum install http://dev.mysql.com/get/Downloads/Connector-ODBC/5.3/mysql-connector-odbc-5.3.4-1.x86_64.rpm -y
