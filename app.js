@@ -20,6 +20,7 @@ var api_headers = require('./routes/api_headers');
 
 var conf_directory = require('./routes/conf_directory');
 var conf_dialplan = require('./routes/conf_dialplan');
+var config = require('./appconfig.json');
 
 var orm = require('orm');
 var models = require('./database');
@@ -27,7 +28,7 @@ var models = require('./database');
 var app = express();
 
 // all environments
-app.use(orm.express("mysql://worktrybe:jHm693wKQBw6HNzV@voneusmysql02.ckffdl4bvmsr.eu-west-1.rds.amazonaws.com/worktrybe", {define: models}));
+app.use(orm.express("mysql://"+config.username+":"+config.password+"@"+config.hostname+"/"+config.database, {define: models}));
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
