@@ -252,6 +252,7 @@ Uncomment lines for mod_xml_curl and mod_odbc_cdr
 
 ### xml_curl.conf.xml
 
+```
   <configuration name="xml_curl.conf" description="cURL XML Gateway">
     <bindings>
       <binding name="gateway">
@@ -264,13 +265,14 @@ Uncomment lines for mod_xml_curl and mod_odbc_cdr
       </binding>
     </bindings>
   </configuration>
+```
 
 Node parameter should be an integer value which is the id column value in the database table "nodes" for the appropriate node.
 
 ## Configure freeswitch to use ODBC DSN to store CDRs
 
 ### odbc_cdr.conf.xml
-
+```
   <configuration name="odbc_cdr.conf" description="ODBC CDR Configuration">
     <settings>
       <param name="odbc-dsn" value="DSN:username:password"/>
@@ -328,3 +330,5 @@ Node parameter should be an integer value which is the id column value in the da
       </table>
     </tables>
   </configuration>
+```
+
