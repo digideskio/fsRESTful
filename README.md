@@ -232,3 +232,99 @@ Parameters:
 Returns:
 Deleted JSON encoded object
 
+
+# Configuration
+
+## Required modules
+
+The following modules should be built additionaly to standard configuration
+
+- mod_xml_curl
+- mod_odbc_cdr
+
+## Enable modules
+
+### modules.conf.xml
+
+Uncomment lines for mod_xml_curl and mod_odbc_cdr
+
+## Configure freeswitch to fetch gateway configuration data and a dialplan from the XML endpoint
+
+### xml_curl.conf.xml
+
+  <configuration name="xml_curl.conf" description="cURL XML Gateway">
+    <bindings>
+      <binding name="gateway">
+        <param name="gateway-url" value="http://127.0.0.1:3000/conf/directory?node=1" bindings="directory"/>
+        <param name="method" value="GET"/>
+      </binding>
+      <binding name="dialplan">
+        <param name="gateway-url" value="http://127.0.0.1:3000/conf/dialplan?node=1" bindings="dialplan"/>
+        <param name="method" value="GET"/>
+      </binding>
+    </bindings>
+  </configuration>
+
+Node parameter should be an integer value which is the id column value in the database table "nodes" for the appropriate node.
+
+## Configure freeswitch to use ODBC DSN to store CDRs
+
+### odbc_cdr.conf.xml
+
+  <configuration name="odbc_cdr.conf" description="ODBC CDR Configuration">
+    <settings>
+      <param name="odbc-dsn" value="DSN:username:password"/>
+      <!-- DSN is a dsn defined in /etc/odbc.ini -->
+      <param name="log-leg" value="both"/>
+      <!-- global value can be "a-leg", "b-leg", "both" (default is "both") -->
+      <param name="write-csv" value="on-db-fail"/>
+      <!-- value can be "always", "never", "on-db-fail" -->
+      <param name="csv-path" value="/var/log/freeswitch/odbc_cdr"/>
+      <param name="csv-path-on-fail" value="/var/log/freeswitch/odbc_cdr/failed"/>
+      <param name="debug-sql" value="false"/>
+    </settings>
+    <tables>
+      <!-- only a-legs will be inserted into this table -->
+      <table name="cdr_table_a_leg" log-leg="a-leg">
+        <field name="CallId" chan-var-name="call_uuid"/>
+        <field name="orig_id" chan-var-name="uuid"/>
+        <field name="term_id" chan-var-name="sip_call_id"/>
+        <field name="ClientId" chan-var-name="uuid"/>
+        <field name="IP" chan-var-name="sip_network_ip"/>
+        <field name="IPInternal" chan-var-name="sip_via_host"/>
+        <field name="CODEC" chan-var-name="read_codec"/>
+        <field name="directGateway" chan-var-name="sip_req_host"/>
+        <field name="redirectGateway" chan-var-name="sip_redirect_contact_host_0"/>
+        <field name="CallerID" chan-var-name="sip_from_user"/>
+        <field name="TelNumber" chan-var-name="sip_req_user"/>
+        <field name="TelNumberFull" chan-var-name="sip_to_user"/>
+        <field name="sip_endpoint_disposition" chan-var-name="endpoint_disposition"/>
+        <field name="sip_current_application" chan-var-name="current_application"/>
+        <field name="duration" chan-var-name="duration"/>
+        <field name="billsec" chan-var-name="billsec"/>
+      </table>
+      <!-- only b-legs will be inserted into this table -->
+      <table name="cdr_table_b_leg" log-leg="b-leg">
+        <field name="CallId" chan-var-name="call_uuid"/>
+        <field name="orig_id" chan-var-name="uuid"/>
+        <field name="term_id" chan-var-name="sip_call_id"/>
+        <field name="ClientId" chan-var-name="uuid"/>
+        <field name="IP" chan-var-name="sip_network_ip"/>
+        <field name="IPInternal" chan-var-name="sip_via_host"/>
+        <field name="CODEC" chan-var-name="read_codec"/>
+        <field name="directGateway" chan-var-name="sip_req_host"/>
+        <field name="redirectGateway" chan-var-name="sip_redirect_contact_host_0"/>
+        <field name="CallerID" chan-var-name="sip_from_user"/>
+        <field name="TelNumber" chan-var-name="sip_req_user"/>
+        <field name="TelNumberFull" chan-var-name="sip_to_user"/>
+        <field name="sip_endpoint_disposition" chan-var-name="endpoint_disposition"/>
+        <field name="sip_current_application" chan-var-name="current_application"/>
+        </table>
+        <!-- both legs will be inserted into this table -->
+        <table name="cdr_table_both">
+        <field name="CallId" chan-var-name="uuid"/>
+        <field name="orig_id" chan-var-name="Caller-Unique-ID"/>
+        <field name="TEST_id" chan-var-name="sip_from_uri"/>
+      </table>
+    </tables>
+  </configuration>
