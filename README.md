@@ -73,6 +73,7 @@ Description: Adds a new trunk to the node.
 
 Parameters:
 - node_id – a FreeSWITCH node ID where the gateway(trunk) should be placed (integer)
+- default_destination - a string value, default destination for calls which will be received by this trunk
 - address – the ip address or a domain name of the host running a FreeSWITCH instance
 - profile – a profile to be used, please use “external” value for now
 - login – a login (username) for SIP authentication (OPTIONAL)

@@ -20,7 +20,8 @@ var models = function (db, models, next){
     password: String,
     node_id: {type:'integer'},
     enabled: Boolean,
-    register: Boolean
+    register: Boolean,
+    default_destination: String
   },{
     hooks: {
       afterSave: function(next){
