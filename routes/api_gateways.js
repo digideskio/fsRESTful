@@ -15,6 +15,7 @@ router.route('/')
   .post(
       form(
         field('descr')    
+        ,field('default_destination').trim().required().notEmpty()
         ,field('address').trim().required().notEmpty()
         ,field('profile').trim().required().notEmpty()
         ,field('login')
@@ -27,6 +28,7 @@ router.route('/')
         if(!req.form.isValid) return res.json({ error:'data', detail: req.form.errors });
         req.models.Gateways.create({
           descr:req.form.descr,
+          default_destination: req.form.default_destination,
           address:req.form.address,
           profile:req.form.profile,
           login:req.form.login,
@@ -63,6 +65,7 @@ router.route('/:id')
     form(
       field('descr')    
       ,field('address').trim().notEmpty()
+      ,field('default_destination').trim().notEmpty()
       ,field('profile').trim().notEmpty()
       ,field('login')
       ,field('password')
@@ -74,6 +77,7 @@ router.route('/:id')
       req.models.Gateways.get(req.params.id,function(err, gw){
         if(err) return res.json({ error:'db', detail: err });
         if(req.form.address) gw.address = req.form.address;
+        if(req.form.default_destination) gw.default_destination = req.form.default_destination;
         if(req.form.profile) gw.profile = req.form.profile;
         if(req.form.login) gw.login = req.form.login;
         if(req.form.password) gw.password = req.form.password;

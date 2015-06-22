@@ -17,9 +17,16 @@ router.all('/', function(req, res, next) {
       && (/_\d+_incoming/.test(context))
     ){
     var match = /_(\d+)_incoming/.exec(context);
-		req.models.Numbers.find({ gateway_id:match[1], number:number },function(err, result){
+    var gateway_id = match[1];
+		req.models.Numbers.find({ gateway_id:gateway_id, number:number },function(err, result){
 			if(err) return res.json({err: err});
-			if(!result || !result[0]) return res.send(Common.notFound());
+			if(!result || (typeof result[0] === 'undefined')) {
+        req.models.Gateways.get(gateway_id,function(err,gw){
+          if(err || typeof gw === 'undefined') return res.send(Common.notFound());
+          return res.send(Common.sendXML('./handlebars/dialplan.handlebars', {context:context, number:{number:".*",destination:gw.default_destination}}));
+        });
+        return;
+      }
       if(result[0].gateway.node_id!=node_id) return res.send(Common.notFound());
       res.set('Content-Type', 'text/xml');
 			res.send(Common.sendXML('./handlebars/dialplan.handlebars', {context:context, number:result[0]}));

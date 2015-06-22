@@ -100,6 +100,7 @@ Description: Modifies one gateway(trunk) object
 
 Parameters:
 - URL parameter id – an integer value which is the unique number of the node
+- default_destination - a string value, default destination for calls which will be received by this trunk (OPTIONAL)
 - address – the ip address or a domain name of the host running a FreeSWITCH instance (OPTIONAL)
 - profile – a profile to be used, please use “external” value for now (OPTIONAL)
 - login – a login (username) for SIP authentication (OPTIONAL)
