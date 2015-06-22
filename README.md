@@ -1,6 +1,6 @@
 # fsRESTful (FreeSWITCH RESTful API)
 
-Base URL of this API: http://<ip_your_freeswitch>:3000 
+Base URL of this API: http://ip_your_freeswitch:3000 
 
 ##Nodes
     GET /api/nodes
