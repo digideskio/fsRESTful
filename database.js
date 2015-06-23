@@ -21,7 +21,8 @@ var models = function (db, models, next){
     node_id: {type:'integer'},
     enabled: Boolean,
     register: Boolean,
-    default_destination: String
+    default_destination: String,
+    mangle_from: String
   },{
     hooks: {
       afterSave: function(next){

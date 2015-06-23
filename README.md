@@ -78,6 +78,7 @@ Parameters:
 - profile – a profile to be used, please use “external” value for now
 - login – a login (username) for SIP authentication (OPTIONAL)
 - password – a password for SIP authentication (OPTIONAL)
+- mangle_from – a replacement of the source of calls which will be bridged (OPTIONAL)
 - descr – a description (OPTIONAL)
 - enabled – Boolean – if the gateway enabled or not (disabled if empty)
 - register – Boolean – if the SIP registration needed (not needed if empty)
@@ -105,6 +106,7 @@ Parameters:
 - profile – a profile to be used, please use “external” value for now (OPTIONAL)
 - login – a login (username) for SIP authentication (OPTIONAL)
 - password – a password for mod_event_socket module (OPTIONAL)
+- mangle_from – a replacement of the source of calls which will be bridged (OPTIONAL)
 - descr – a description (OPTIONAL)
 - enabled – Boolean – if the gateway enabled or not (OPTIONAL)
 - register – Boolean – if the SIP registration needed (OPTIONAL)

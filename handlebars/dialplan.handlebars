@@ -7,7 +7,7 @@
           {{#each number.headers}}
           <action application="set" data="sip_rh_{{this.name}}={{this.value}}"/>
           {{/each}}
-          <action application="bridge" data="sofia/external/{{number.destination}}"/>
+          <action application="bridge" data="{{#if mangle_from_domain}}{sip_invite_domain={{mangle_from_domain}},timeout=360}{{/if}}sofia/external/{{number.destination}}"/>
         </condition>
       </extension>
     </context>

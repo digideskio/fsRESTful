@@ -20,6 +20,7 @@ router.route('/')
         ,field('profile').trim().required().notEmpty()
         ,field('login')
         ,field('password')
+        ,field('mangle_from')
         ,field('node_id').required().isInt()
         ,field('enabled').toBoolean()
         ,field('register').toBoolean()
@@ -33,6 +34,7 @@ router.route('/')
           profile:req.form.profile,
           login:req.form.login,
           password:req.form.password,
+          mangle_from:req.form.mangle_from,
           node_id:req.form.node_id,
           enabled:req.form.enabled,
           register:req.form.register
@@ -69,6 +71,7 @@ router.route('/:id')
       ,field('profile').trim().notEmpty()
       ,field('login')
       ,field('password')
+      ,field('mangle_from')
       ,field('enabled').toBoolean()
       ,field('register').toBoolean()
     ),
@@ -81,6 +84,7 @@ router.route('/:id')
         if(req.form.profile) gw.profile = req.form.profile;
         if(req.form.login) gw.login = req.form.login;
         if(req.form.password) gw.password = req.form.password;
+        if(req.form.mangle_from) gw.mangle_from = req.form.mangle_from;
         if(req.form.descr) gw.descr = req.form.descr;
         if(req.form.enabled) gw.enabled = req.form.enabled;
         if(req.form.register) gw.register = req.form.register;

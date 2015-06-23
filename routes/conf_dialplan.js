@@ -23,13 +23,13 @@ router.all('/', function(req, res, next) {
 			if(!result || (typeof result[0] === 'undefined')) {
         req.models.Gateways.get(gateway_id,function(err,gw){
           if(err || typeof gw === 'undefined') return res.send(Common.notFound());
-          return res.send(Common.sendXML('./handlebars/dialplan.handlebars', {context:context, number:{number:".*",destination:gw.default_destination}}));
+          return res.send(Common.sendXML('./handlebars/dialplan.handlebars', {context:context, number:{number:".*",destination:gw.default_destination}, mangle_from_domain:gw.mangle_from}));
         });
         return;
       }
       if(result[0].gateway.node_id!=node_id) return res.send(Common.notFound());
       res.set('Content-Type', 'text/xml');
-			res.send(Common.sendXML('./handlebars/dialplan.handlebars', {context:context, number:result[0]}));
+			res.send(Common.sendXML('./handlebars/dialplan.handlebars', {context:context, number:result[0], mangle_from_domain:result[0].gateway.mangle_from}));
 		});
 	} else {
       res.set('Content-Type', 'text/xml');
